@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+body {
+  width:1280px;
+  background-color: white;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+   font-size: 15px;
+   color: #222831
+
+}
+
+.container {
+   height: 70vh;
+}

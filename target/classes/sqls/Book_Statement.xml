@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dowon.bds.model.mapper.BookDaoImpl">
+
+<!-- 도서목록 페이징 -->
+<select id="bookCount" resultType="java.lang.Integer">
+SELECT COUNT(*) 
+	FROM TB_BOOK
+</select>
+
+<select id="bookCountList" parameterType="java.util.Map" resultType="BookDto">
+    SELECT BOOK_SEQ, BOOK_TITLE, BOOK_WRITER, BOOK_IMG, BOOK_ISBN,
+           BOOK_INTRO, BOOK_PUBLISHER, BOOK_PUBLISHED_DATE, BOOK_INDEX, BOOK_SUMMARY
+    FROM (
+        SELECT tb.BOOK_SEQ, tb.BOOK_TITLE, tb.BOOK_WRITER, tb.BOOK_IMG, tb.BOOK_ISBN,
+               tb.BOOK_INTRO, tb.BOOK_PUBLISHER, tb.BOOK_PUBLISHED_DATE, tb.BOOK_INDEX, tb.BOOK_SUMMARY,
+               ROW_NUMBER() OVER (ORDER BY tb.BOOK_SEQ DESC) AS RN
+        FROM TB_BOOK tb
+    ) tt
+    WHERE RN BETWEEN #{first} AND #{last}
+</select>
+
+<!-- 도서 검색하기 -->
+<select id="searchBooks" parameterType="java.util.Map" resultType="BookDto">
+    SELECT BOOK_SEQ, BOOK_TITLE, BOOK_WRITER, BOOK_IMG, BOOK_ISBN,
+			BOOK_INTRO,BOOK_PUBLISHER,BOOK_PUBLISHED_DATE
+			BOOK_INDEX,BOOK_SUMMARY
+	FROM TB_BOOK
+    WHERE BOOK_TITLE LIKE '%' || #{book_title} || '%' OR BOOK_WRITER LIKE '%' || #{book_writer} || '%'
+</select>
+
+
+<!-- 도서 검색결과 페이징 -->
+<select id="searchBookCount" resultType="java.lang.Integer">
+SELECT COUNT(*) 
+	FROM TB_BOOK
+	WHERE BOOK_TITLE LIKE '%' || #{book_title} || '%' OR BOOK_WRITER LIKE '%' || #{book_writer} || '%'
+</select>
+
+<!-- 도서 검색하기 -->
+<select id="searchBookList" parameterType="java.util.Map" resultType="BookDto">
+	SELECT BOOK_SEQ, BOOK_TITLE, BOOK_WRITER, BOOK_IMG, BOOK_ISBN,
+       BOOK_INTRO, BOOK_PUBLISHER, BOOK_PUBLISHED_DATE, BOOK_INDEX, BOOK_SUMMARY
+    FROM (
+        SELECT tb.BOOK_SEQ, tb.BOOK_TITLE, tb.BOOK_WRITER, tb.BOOK_IMG, tb.BOOK_ISBN,
+               tb.BOOK_INTRO, tb.BOOK_PUBLISHER, tb.BOOK_PUBLISHED_DATE, tb.BOOK_INDEX, tb.BOOK_SUMMARY,
+               ROW_NUMBER() OVER (ORDER BY tb.BOOK_SEQ DESC) AS RN
+        FROM TB_BOOK tb
+        WHERE tb.BOOK_TITLE LIKE '%' || #{book_title} || '%' OR tb.BOOK_WRITER LIKE '%' || #{book_writer} || '%'
+    ) tt
+    WHERE RN BETWEEN #{first} AND #{last}
+</select>
+
+<!-- ISBN으로 도서 중복 등록 체크 -->
+<select id="checkIsbn" parameterType="String" resultType="Integer">
+SELECT COUNT(BOOK_ISBN)
+	FROM TB_BOOK
+	WHERE BOOK_ISBN = #{book_isbn}
+</select>
+
+<!-- 모든 도서 정보 가져오기 -->
+<select id="getAllBooks" resultType="BookDto">
+SELECT BOOK_SEQ,BOOK_TITLE,BOOK_WRITER,BOOK_IMG,BOOK_ISBN,BOOK_PUBLISHER,BOOK_PUBLISHED_DATE
+	FROM TB_BOOK
+	ORDER BY BOOK_SEQ DESC
+</select>
+
+<!-- 도서 상세보기-->
+<select id="getDetailBook" resultType="BookDto">
+SELECT BOOK_SEQ,BOOK_TITLE,BOOK_WRITER,
+		BOOK_IMG,BOOK_ISBN,BOOK_INTRO,
+		BOOK_PUBLISHER,BOOK_PUBLISHED_DATE,BOOK_INDEX,
+		BOOK_SUMMARY
+	FROM TB_BOOK
+	WHERE BOOK_SEQ = #{book_seq}
+</select>
+
+<!-- 도서 등록하기 -->
+<insert id="registBook" parameterType="BookDto">
+INSERT INTO TB_BOOK
+	(BOOK_SEQ,BOOK_TITLE,BOOK_WRITER,
+	BOOK_IMG,BOOK_ISBN,BOOK_INTRO,
+	BOOK_PUBLISHER,BOOK_PUBLISHED_DATE,BOOK_INDEX,BOOK_SUMMARY)
+	VALUES (SQ_BOOK.NEXTVAL,#{book_title},#{book_writer},
+			#{book_img},#{book_isbn},#{book_intro},
+			#{book_publisher},#{book_published_date},#{book_index},#{book_summary})
+</insert>
+
+
+
+<!-- 도서 수정하기 -->
+<update id="updateBook" parameterType="java.util.Map">
+UPDATE TB_BOOK
+SET 
+    BOOK_TITLE = #{book_title},
+    BOOK_WRITER = #{book_writer},
+    BOOK_PUBLISHER = #{book_publisher},
+    BOOK_INTRO = #{book_intro},
+    BOOK_INDEX = #{book_index},
+    BOOK_SUMMARY = #{book_summary}
+WHERE
+    BOOK_ISBN = #{book_isbn}
+</update>
+
+
+
+
+
+
+
+</mapper>

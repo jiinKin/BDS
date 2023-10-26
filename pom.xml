@@ -1,0 +1,234 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.dowon.bds</groupId>
+  <artifactId>BookDeliverySystem</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>BookDeliverySystem</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+		<java-version>17</java-version>
+		<org.springframework-version>5.3.20</org.springframework-version>
+		<org.aspectj-version>1.9.9.1</org.aspectj-version>
+		<org.slf4j-version>2.0.4</org.slf4j-version>
+	</properties>
+	
+  <!-- dependency를 찾기 위한 2차 검색 저장소 -->
+  <repositories>
+  	<repository>
+		<id>local_repository</id>
+		<name>local repository</name>
+		<url>file://${project.basedir}/repository</url>  	
+  	</repository>
+  </repositories>
+  
+  <dependencies>
+  
+	<!-- Spring 관련 Core, MVC 개발에 필요한 라이브러리-->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>${org.springframework-version}</version>
+		<exclusions>
+			<!-- 의존적관계중에서 exclusion을 의존하지 않고 제외한다 -->
+			<exclusion>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+			 </exclusion>
+		</exclusions>
+	</dependency>
+	
+	<!-- Spring  MVC 개발에 stereotype인 @Controller @Service @Repository의 Annotation의 동작-->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency>
+	
+  	<!-- 로그처리를 위한 logback 라이브러리 -->
+	<dependency>
+	    <groupId>ch.qos.logback</groupId>
+	    <artifactId>logback-classic</artifactId>
+	    <version>1.4.5</version>
+	</dependency>
+	
+	<!-- 로그처리를 자동으로 해주는 라이브러리 -->
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${org.slf4j-version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>jcl-over-slf4j</artifactId>
+		<version>${org.slf4j-version}</version>
+	</dependency>  
+	
+	<!-- 생성된 Bean을 DI할 때 사용할 수 있는 @Inject 제공 -->
+	<dependency>
+		<groupId>javax.inject</groupId>
+		<artifactId>javax.inject</artifactId>
+		<version>1</version>
+	</dependency>
+	
+	<!-- Servlet Tomcat이 가지고 있는 라이브러리인 Scope를 Provide로 하여 실행할 때는 Maven 을 사용하고 배포 했을경우 Servet의 라이이브러리를 사용-->
+	<!-- Servlet은 tomcat이 가지고있는 라이브러리, scope를 provide로 하면 실행할때는 Maven을 사용하고 배포했을경우는 배포서버의 라이브러리를 사용 -->
+   <dependency>
+       <groupId>javax.servlet</groupId>
+       <artifactId>javax.servlet-api</artifactId>
+       <version>4.0.1</version>
+   </dependency>
+	<!-- java standard tag library JSP에서 java를 Tag형식으로 사용 할 수 있도록 함-->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+		<version>1.2</version>
+	</dependency> 
+	
+	<!-- 사용자 Filter에서 문자열을 쉽게 처리하기 위한 라이브러리-->
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-lang3</artifactId>
+	    <version>3.12.0</version>
+	</dependency>
+	
+	<!-- 오라클접속 드라이버 -->
+	<dependency>
+	    <groupId>com.oracle.database.jdbc</groupId>
+	    <artifactId>ojdbc10</artifactId>
+	    <version>19.17.0.0</version>
+	</dependency>
+	
+	<!--mybatis 라이브러리-->
+	<dependency>
+		 <groupId>org.mybatis</groupId>
+		 <artifactId>mybatis</artifactId>
+		 <version>3.5.6</version>
+	</dependency> 
+	
+	<!--database connect porperty 디비접속정보인 Property파일을 bean으로 생성하기 위한 라이브러리-->
+	<dependency>
+	    <groupId>commons-dbcp</groupId>
+	    <artifactId>commons-dbcp</artifactId>
+	    <version>1.4</version>
+	</dependency>  
+	
+	<!--Spring MyBatis bean을 사용하기 위한 라이브러리-->
+	<dependency>
+	    <groupId>org.mybatis</groupId>
+	    <artifactId>mybatis-spring</artifactId>
+	    <version>2.0.6</version>
+	</dependency>
+	
+	<!-- Spring ORM 을 통해서 Transaction처리 TX-->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-orm</artifactId>
+	    <version>${org.springframework-version}</version>
+	</dependency>	
+	
+	<!--lombok-->
+	<dependency>
+	    <groupId>org.projectlombok</groupId>
+	    <artifactId>lombok</artifactId>
+	    <version>1.18.24</version>
+	</dependency>
+	
+	<!-- Test -->
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.12</version>
+	</dependency>		
+		
+	<!-- JUnit과 Spring을 같이 동작시키기 위한 라이브러리-->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-test</artifactId>
+	    <version>${org.springframework-version}</version>
+	</dependency>
+	
+	<!--AOP처리를 위한  aspect , weaving  처리-->
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjrt</artifactId>
+	    <version>${org.aspectj-version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjweaver</artifactId>
+	    <version>${org.aspectj-version}</version>
+	</dependency>
+	
+	<!--JSON 생성을 위한 라이브러리-->
+	<dependency>
+	    <groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>2.8.9</version>
+	</dependency>	
+	
+	<!--메일 Sand Messgae Transfer Protocol -->
+	<dependency>
+	    <groupId>javax.mail</groupId>
+	    <artifactId>mail</artifactId>
+	    <version>1.4.7</version>
+	</dependency>
+	<!--spring에서 SMTP를 bean 으로 처리하기 위한 라이브러리-->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context-support</artifactId>
+	    <version>${org.springframework-version}</version>
+	</dependency>
+	
+	<!--파일업로드 라이브러리-->
+	<dependency>
+	    <groupId>commons-fileupload</groupId>
+	    <artifactId>commons-fileupload</artifactId>
+	    <version>1.5</version>
+	</dependency>
+	<dependency>
+	    <groupId>commons-io</groupId>
+	    <artifactId>commons-io</artifactId>
+	    <version>2.11.0</version>
+	</dependency>
+	
+	<!--Spring RestFull 서비를 처리 위한 JSON 자동반환-->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.14.2</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-mapper-asl</artifactId>
+	    <version>1.9.13</version>
+	</dependency>
+	
+	<!-- 휴대폰 인증 -->	
+	  <dependency>
+           <groupId>net.nurigo</groupId>
+           <artifactId>sdk</artifactId>
+           <version>4.2.7</version>
+      </dependency>
+      
+  </dependencies>
+  <build>
+    <finalName>BookDeliverySystem</finalName>
+    <plugins>
+    	<plugin>
+    		<artifactId>maven-compiler-plugin</artifactId>
+    		<version>3.10.1</version>
+    		<configuration>
+    			<source>17</source>
+    			<target>17</target>
+    		</configuration>
+    	</plugin>
+    	<plugin>
+    		<artifactId>maven-war-plugin</artifactId>
+    		<version>3.3.2</version>
+    	</plugin>
+    </plugins>
+  </build>
+</project>

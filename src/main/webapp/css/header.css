@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+body{
+	width: 1280px;
+	margin:0 auto;
+}
+
+#rentInfo{
+	font-size: 10px; 
+}
+.mainTitle{
+
+	text-align: center; 
+	font-size: 60px; 
+	color: white;
+  font-family: 'BMHANNAPro', fantasy;
+
+}
+
+a.a{
+	text-decoration: none;
+	color: #222831;
+}
+
+
+span{
+	font-size: 12px; color:#222831;
+}
+
+
+
+#header {
+  color:#222831; /* 헤더 텍스트 색상을 원하는 색상으로 설정 */
+}
+
+
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+.flex-container > div {
+  width: 400px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+  text-align: right;
+}
+
+li,.btn{
+	font-family: 'BMHANNAAir', fantasy;
+   font-size: 18px;
+}
+
+
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+/*     background-color: #2ac1bc; */
+}
+
+/* .btn { */
+/*     background-color: #4CAF50; 배경색 */
+/*     color: white; 글자색 */
+/*     border: none; 테두리 없음 */
+/*     padding: 5px 10px; 안쪽 여백 */
+/*     text-align: center; 텍스트 가운데 정렬 */
+/*     text-decoration: none; 텍스트에 밑줄 없음 */
+/*     display: inline-block; 인라인 요소로 표시 */
+/*     font-size: 16px; 글자 크기 */
+/*     margin: 2px 1px; 바깥쪽 여백 */
+/*     cursor: pointer; 커서 스타일을 포인터로 변경하여 클릭 가능한 상태로 표시 */
+/*     border-radius: 5px; 둥근 테두리 */
+    
+/* } */
+
+

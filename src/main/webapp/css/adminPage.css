@@ -1,0 +1,182 @@
+@charset "UTF-8";
+
+body {
+  width: 1280px;
+  background-color: white;
+  margin:0 auto;
+}
+
+
+/* 검색창 컨테이너 스타일링 */
+.search-container {
+  display: flex;
+  border-radius: 20px;
+  padding: 15px; /* 상하 패딩 유지 */
+}
+
+h2{
+	font-family: 'BMHANNAPro', fantasy;
+	padding-top: 10px;
+	text-align: center;
+}
+
+/* 검색 입력 필드 스타일링 */
+.search-container input[type="text"] {
+  padding: 15px; /* 상하 패딩 유지 */
+  width: 40%;
+  border-radius: 20px 0 0 20px;
+  font-size: 16px;
+  margin-right: auto; /* 오른쪽 마진 추가 */
+  margin-left: auto;
+  outline: none;
+  border: double;
+}
+
+/* 검색 버튼 스타일링 */
+.search-container button[type="submit"] {
+  background-color: #00FFF5;
+  color: white;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  padding: 15px; /* 상하 패딩 유지 */
+  margin-right: auto; /* 오른쪽 마진 추가 */
+  margin-left: auto;
+}
+
+/* 검색 아이콘 스타일링 (Font Awesome 아이콘 사용) */
+.search-container button[type="submit"] i {
+  padding: 10px;
+}
+
+
+a.a{
+	text-decoration: none;
+	color: #222831;
+}
+
+
+.container {
+  text-align: center;
+}
+
+/* img { */
+/*   width: 100%; 이미지는 항상 부모 요소의 너비에 맞게 표시됩니다. */
+/*   height: auto; 이미지 높이는 자동으로 조절됩니다. */
+/*   max-width: 100%; 화면을 벗어나지 않도록 최대 크기를 설정합니다. */
+/*   max-height: 100%; 화면을 벗어나지 않도록 최대 크기를 설정합니다. */
+/* } */
+
+
+#event{
+	width:100%;
+}
+
+#slider-div{
+	width: 100%;
+}
+.inner {
+  position: relative;
+  width: 600px;
+  height: 40px;
+  margin: 20px auto;
+  border: 1px solid #bdc1c6;
+  border-radius: 20px;
+}
+thead{
+	text-align: center;
+}
+
+input {
+  width: 100%;
+/*   height: 100%; */
+  border-color: #bdc1c6;
+  border: 0px;
+  font-size: 16px;
+  outline: none;
+}
+
+.searching {
+  width: 100%;
+  top: 20%;
+  margin-right: 0px;
+}
+
+i:hover {
+  cursor: pointer;
+}
+
+.icon_ect {
+  position: absolute;
+  right: 10px;
+  top: 20%;
+}
+
+.fa-keyboard {
+  margin-right: 10px;
+}
+
+.weegle_inner {
+  width: 160px;
+  height: 40px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  border: 0px;
+  vertical-align: middle;
+}
+
+.weegle_inner:hover {
+  cursor: pointer;
+}
+
+
+a.a{
+	text-decoration: none;
+	color: #222831;
+}
+
+
+#faq-title, #notice_title{
+	    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#faq-table, #notice_table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#faq-table th, #faq-table td,
+#notice_table th, #notice_table td {
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+#faq-table th,
+#notice_table th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-size: 14px;
+}
+
+#faq-table td,
+#notice_table td {
+    font-size: 14px;
+}
+
+#faq-table tr:hover,
+#notice_table tr:hover {
+    background-color: #f5f5f5;
+}
+h3{
+	text-align: left;
+	margin: 10px;
+	font-weight: bold;
+}
+h5{
+	font-size: 14px;
+}

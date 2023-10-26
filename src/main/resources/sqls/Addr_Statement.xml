@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dowon.bds.model.mapper.AddrDaoImpl">
+ 
+ <resultMap id="addrResultMap" type="com.dowon.bds.dto.AddrDto">
+    <id property="delivery_seq" column="DELIVERY_SEQ"/>
+    <result property="user_seq" column="USER_SEQ"/>
+    <result property="delivery_name" column="DELIVERY_NAME"/>
+    <result property="delivery_phone" column="DELIVERY_PHONE"/>
+    <result property="postcode" column="POSTCODE"/>
+    <result property="address" column="ADDRESS"/>
+    <result property="detaddr" column="DETADDR"/>
+    <result property="extaddr" column="EXTADDR"/>
+    <result property="delivery_num" column="DELIVERY_NUM"/>
+</resultMap>
+
+    <!-- 배송지 주소 입력 -->
+
+	<insert id="saveAddress" parameterType="AddrDto">
+		INSERT INTO TB_DELIVERY
+		(DELIVERY_SEQ, USER_SEQ, DELIVERY_NAME, DELIVERY_PHONE, POSTCODE, ADDRESS, DETADDR, EXTADDR, DELIVERY_NUM)
+		VALUES(SQ_DELIVERY.NEXTVAL, #{user_seq}, #{delivery_name}, #{delivery_phone}, #{postcode}, #{address}, #{detaddr}, #{extaddr}, NULL)
+	</insert>
+	
+	<!-- 수거요청 주소입력 -->
+	<insert id="saveAddressReturn" parameterType="AddrDto">
+		INSERT INTO TB_DELIVERY
+		(DELIVERY_SEQ, USER_SEQ, DELIVERY_NAME, DELIVERY_PHONE, POSTCODE, 
+							ADDRESS, DETADDR, EXTADDR, DELIVERY_NUM)
+		VALUES(SQ_DELIVERY.NEXTVAL, #{user_seq}, #{delivery_name}, #{delivery_phone}, #{postcode}, 
+							#{address}, #{detaddr}, #{extaddr}, NULL)
+	</insert>
+	
+	<!-- 렌트 상태 업데이트 -->
+	<update id="deliRentStatus" parameterType="java.lang.Integer">
+		UPDATE TB_BOOK_RENT
+			SET RENT_STATUS = 'B'
+			WHERE (USER_SEQ, RENT_SEQ) IN (
+			    SELECT USER_SEQ, MAX(RENT_SEQ)
+			    FROM TB_BOOK_RENT
+			    WHERE USER_SEQ = #{user_seq}
+			    GROUP BY USER_SEQ
+			)
+	</update>
+	
+	<!-- 배송지 입력 확인 -->
+	<select id="checkAddress" resultMap="addrResultMap">
+		SELECT DELIVERY_SEQ, USER_SEQ, DELIVERY_NAME, DELIVERY_PHONE, POSTCODE, ADDRESS, DETADDR, EXTADDR, DELIVERY_NUM
+		FROM TB_DELIVERY
+		WHERE DELIVERY_SEQ = #{delivery_seq}
+	</select>
+	
+	
+	<select id="getAddrUserSeq" resultMap="addrResultMap" parameterType="java.lang.Integer">
+	    SELECT D.DELIVERY_SEQ, D.USER_SEQ, D.DELIVERY_NAME, D.DELIVERY_PHONE, D.POSTCODE, D.ADDRESS, D.DETADDR, D.EXTADDR, D.DELIVERY_NUM
+		    FROM TB_DELIVERY D
+		    LEFT JOIN TB_USER U ON D.USER_SEQ = U.USER_SEQ
+		    WHERE D.USER_SEQ = #{user_seq}
+		    ORDER BY D.DELIVERY_SEQ DESC
+		    FETCH FIRST 1 ROW ONLY
+	</select>
+	
+	<!-- 운송장 번호 입력 -->
+	<update id="updateDeliveryNum" parameterType="java.util.Map">
+		UPDATE  TB_DELIVERY 
+			SET DELIVERY_NUM = #{delivery_num}
+	</update>
+	
+	<!-- 운송장 번호 배송조회 -->
+	<select id="findDelivery" resultMap="addrResultMap">
+		SELECT DELIVERY_NUM
+		FROM (
+		    SELECT DELIVERY_NUM
+		    FROM TB_DELIVERY
+		    WHERE USER_SEQ = #{user_seq}
+		    ORDER BY DELIVERY_NUM DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+
+ 
+</mapper>

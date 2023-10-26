@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+body {
+  background-color: white;
+  margin:0 auto;
+}
+
+/* test */
+/* 테이블 스타일링 */
+.book-table {
+	width:1280px;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+
+.book-table th, .book-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.book-table th {
+    background-color: #f2f2f2;
+}
+
+.book-table tbody tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+/* .book-table img { */
+/*     max-width: 400px; */
+/*     max-height: 400px; */
+/* } */
+
+.book-table button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    display: inline-block; /* 수정된 부분: display 속성을 inline-block으로 변경 */
+    text-decoration: none; /* 버튼 텍스트에 밑줄 제거 */
+}
+
+.book-table button:hover {
+    background-color: #45a049;
+}
+
+.book-table th:nth-child(1) {
+    width: 200px; /* 첫 번째 <th> 열의 넓이를 조절 */
+}
+
+.book-table th:nth-child(2) {
+    width: 200px; /* 두 번째 <th> 열의 넓이를 조절 */
+}
+
+.book-table th:nth-child(3) {
+    width: 450px; /* 세 번째 <th> 열의 넓이를 조절 */
+}
+
+.book-table th:nth-child(4),
+.book-table th:nth-child(5) {
+    width: 130px; /* 네 번째와 다섯 번째 <th> 열의 넓이를 조절 */
+}
+
+.book-table th:nth-child(6) {
+    width: 100px; /* 여섯 번째 <th> 열의 넓이를 조절 */
+}
+
+
+
+/* 검색창 컨테이너 스타일링 */
+.search-container {
+  display: flex;
+  border-radius: 20px;
+  padding: 15px; /* 상하 패딩 유지 */
+}
+
+h2{
+	font-family: 'BMHANNAPro', fantasy;
+	padding-top: 10px;
+	text-align: center;
+}
+
+/* 검색 입력 필드 스타일링 */
+.search-container input[type="text"] {
+  padding: 15px; /* 상하 패딩 유지 */
+  width: 40%;
+  border-radius: 20px 0 0 20px;
+  font-size: 16px;
+  margin-right: auto; /* 오른쪽 마진 추가 */
+  margin-left: auto;
+  outline: none;
+  border: double;
+}
+
+/* 검색 버튼 스타일링 */
+.search-container button[type="submit"] {
+  background-color: #00FFF5;
+  color: white;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  padding: 15px; /* 상하 패딩 유지 */
+  margin-right: auto; /* 오른쪽 마진 추가 */
+  margin-left: auto;
+}
+
+/* 검색 아이콘 스타일링 (Font Awesome 아이콘 사용) */
+.search-container button[type="submit"] i {
+  padding: 10px;
+}
+
+
+a.a{
+	text-decoration: none;
+	color: #222831;
+}
+
+
+.container {
+  text-align: center;
+}

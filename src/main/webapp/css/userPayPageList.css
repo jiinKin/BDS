@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+body {
+  width:1280px;
+  background-color: white;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+   font-size: 15px;
+   color: #222831
+
+}
+h1 {
+      font-family: 'BMHANNAPro', fantasy;
+       padding-bottom: 10px;	
+}
+h5 {
+      font-family: 'BMHANNAAir', fantasy;
+      color: #00ADB5;
+}
+h4 {
+      font-family: 'BMHANNAPro', fantasy;
+}
+.container {
+	height: 70vh;
+}
+
+#sidebar {
+/*     background: #99ff99; */
+    float: left;
+    width: 200px;
+    height: 600px;
+}
+
+#sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#sidebar li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: rgb(165, 243, 241);
+    border-radius: 5px;
+}
+
+#sidebar li:hover {
+    background-color: rgb(104, 236, 233);
+}
+
+#maincontent {
+/*     background: #9999ff; */
+/*     height: 600px; */
+	height: 64vh;
+    margin-left: 220px; /* 사이드바 너비(200px) + 여백(20px) */
+}
+

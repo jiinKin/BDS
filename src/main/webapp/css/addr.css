@@ -1,0 +1,75 @@
+@charset "UTF-8";
+body {
+  width: 1280px;
+  background-color: white;
+  margin: 0 auto;
+  box-sizing: border-box;
+  font-size: 15px;
+  color: #222831;
+  background-image: url("../img/deil.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right bottom; /* 오른쪽 아래 모서리로 배경 이미지 이동 */
+  background-size:60%;
+}
+
+   form {
+  		margin-top: 95px;
+    	margin-left: auto;
+    	margin-right: auto;
+    	width: 90%; /* 원하는 너비 설정 */
+    }
+
+
+    .center-text {
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    #sample6_postcode {
+        width: 40%;
+    }
+
+    #sample6_address {
+        width: 70%;
+    }
+
+    #sample6_detailAddress {
+        width: 40%;
+    }
+
+    #sample6_extraAddress {
+        width: 38%;
+    }
+
+    .btn {
+        margin-right: 10px;
+    }
+
+
+    .container {
+		height: 70vh;
+        background-color: #ffffff; /* 배경색 설정 */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+        margin: 20px auto; /* 페이지 중앙 정렬 */
+        max-width: 550px; /* 페이지 최대 너비 */
+    }
+
+    h1 {
+        font-family: 'Hanna', fantasy;
+        text-align: center;
+        padding-top: 20px; /* 상단 여백 조정 */
+    }
+
+    .table-bordered {
+        border: none; /* 테이블 테두리 제거 */
+    }
+
+    .center-text {
+        text-align: center;
+    }

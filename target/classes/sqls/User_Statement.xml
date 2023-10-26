@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dowon.bds.model.mapper.UserDaoImpl">
+
+
+<!-- 이메일체크 -->
+<select id="checkEmail" resultType="java.lang.Integer">
+SELECT COUNT(USER_EMAIL)
+	FROM TB_USER
+	WHERE USER_EMAIL= #{user_email}
+</select>
+
+<!-- 전화번호체크 -->
+<select id="checkPhone" resultType="java.lang.Integer">
+SELECT COUNT(USER_PHONE)
+	FROM TB_USER
+	WHERE USER_PHONE= #{user_phone}
+</select>
+
+<!-- 유저 상세 조회 -->
+<select id="getUserDetail" resultType="UserDto">
+SELECT USER_SEQ,USER_EMAIL,USER_NAME,USER_PHONE,USER_BIRTH,JOINDATE,USER_GENDER
+	FROM TB_USER
+	WHERE USER_EMAIL=#{user_email}
+</select>
+
+<!-- 로그인 구현 -->
+<select id="login" resultType="UserDto" parameterType="Map">
+SELECT USER_SEQ,USER_EMAIL,USER_PHONE,USER_BIRTH,JOINDATE,USER_NAME,USER_AUTH,USER_GENDER
+	FROM TB_USER
+	WHERE USER_EMAIL = #{user_email} 
+	AND USER_PASSWORD = #{user_password}
+</select>
+
+<!-- 일반 회원가입 -->
+<insert id="nomalRegist" parameterType="UserDto">
+INSERT INTO TB_USER
+	(USER_SEQ,USER_EMAIL,USER_PASSWORD,
+	USER_NAME,USER_PHONE,USER_BIRTH,
+	USER_AUTH,USER_DELFLAG,JOINDATE,USER_GENDER)
+	VALUES (SQ_USER.NEXTVAL,#{user_email},#{user_password},
+			#{user_name},#{user_phone},#{user_birth},
+			'U','N',SYSDATE,#{user_gender})
+</insert>
+
+<!-- 모든회원정보가져오기 -->
+<select id="getAllUser" resultType="UserDto">
+SELECT USER_SEQ,USER_EMAIL,USER_PHONE,USER_BIRTH,JOINDATE,USER_NAME,USER_GENDER
+	FROM TB_USER
+	ORDER BY USER_SEQ DESC
+</select>
+
+<!-- 회원의 대출,예약 상태 가져오기 -->
+
+<select id="getUserStatus" resultType="Map">
+SELECT USER_SEQ, RENT_STATUS, RESVE_STATUS
+FROM (
+    SELECT
+        U.USER_SEQ AS USER_SEQ,
+        BR.RENT_STATUS AS RENT_STATUS,
+        R.RESVE_STATUS AS RESVE_STATUS
+    FROM
+        TB_USER U
+    LEFT JOIN
+        TB_BOOK_RENT BR ON U.USER_SEQ = BR.USER_SEQ
+    LEFT JOIN
+        TB_RESVE R ON U.USER_SEQ = R.USER_SEQ
+    WHERE U.USER_SEQ = #{user_seq}
+    ORDER BY BR.RENT_SEQ DESC, R.RESVE_SEQ DESC
+)
+WHERE ROWNUM = 1
+</select>
+
+<!-- 이메일 찾기 -->
+<select id="findEmail" resultType="String">
+SELECT USER_EMAIL
+	FROM TB_USER
+	WHERE USER_NAME = #{user_name}
+	AND USER_PHONE = #{user_phone}
+</select>
+
+<!-- 임시비밀번호 발급-->
+<update id="findPW">
+UPDATE TB_USER SET USER_PASSWORD = #{user_password}
+	WHERE USER_EMAIL = #{user_email}
+	AND USER_PHONE = #{user_phone}
+</update>
+
+<!-- 비밀번호 체크 -->
+<select id="checkPassword" resultType="Integer">
+SELECT COUNT(*)
+	FROM TB_USER
+	WHERE USER_EMAIL = #{user_email}
+	AND USER_PASSWORD = #{currentPassword}
+</select>
+
+<!-- 비밀번호 업데이트 -->
+<update id="modifyPW">
+UPDATE TB_USER SET USER_PASSWORD = #{user_password}
+	WHERE USER_PASSWORD = #{currentPassword}
+	AND USER_EMAIL = #{user_email}
+</update>
+
+<!--임시비밀번호 찾기시 회원정보 일치 체크 -->
+<select id="findPWCheck" resultType="java.lang.Integer">
+SELECT COUNT(*)
+	FROM TB_USER
+	WHERE USER_EMAIL = #{user_email}
+			AND USER_PHONE = #{user_phone}
+</select>
+
+<!-- 소셜 연동하기 -->
+<update id="linkNaver">
+UPDATE TB_USER SET NAVER_KEY = #{naver_key}
+		WHERE USER_SEQ = #{user_seq}
+</update>
+
+</mapper>

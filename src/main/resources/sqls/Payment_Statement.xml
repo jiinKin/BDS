@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dowon.bds.model.mapper.PaymentDaoImpl">
+
+<!-- 결제정보 입력 -->
+ 
+    <insert id="saveBookPayment" parameterType="java.util.Map">
+        INSERT INTO BOOK.TB_PAY (PAY_SEQ, PAY_IMD, USER_SEQ, PAY_PAYMENT, PAY_DATE, PAY_POINT, PAY_SUMPOINT)
+        VALUES (SQ_PAY.NEXTVAL, #{payImd}, #{user_seq}, #{payPayment}, SYSDATE, #{payPoint}, #{paySumpoint})
+    </insert>
+    
+    <!-- 마일리지 총합 -->
+    <select id="selectSumPoint" parameterType="Integer" resultType="Integer">
+	     SELECT SUM(PAY_POINT) AS TOTAL_PAY_POINT
+		    FROM TB_PAY
+		    WHERE USER_SEQ = #{user_seq}
+		    GROUP BY USER_SEQ
+		    HAVING SUM(PAY_POINT) >= 0
+	</select>
+	
+	<!-- 대출하기 -->	
+	<insert id="bookRent" parameterType="java.util.Map">
+		INSERT INTO TB_BOOK_RENT
+			(RENT_SEQ, USER_SEQ, BOOK_SEQ, RENT_DATE, RENT_RETURN_DATE, RENT_STATUS)
+			SELECT SQ_RENT.NEXTVAL, U.USER_SEQ, B.BOOK_SEQ, SYSDATE, SYSDATE + 7, 'Y'
+			FROM TB_USER U
+			CROSS JOIN TB_BOOK B
+			WHERE U.USER_SEQ = #{user_seq}
+			  AND B.BOOK_SEQ = #{book_seq}
+	</insert>
+		
+
+<!-- 특정 회원의 결제내역조회 -->
+<!-- 	<select id="selectMypayList" parameterType="java.lang.Integer" resultType="java.util.Map"> -->
+<!-- 		SELECT P.PAY_SEQ, P.PAY_IMD, P.USER_SEQ, P.PAY_PAYMENT, P.PAY_DATE, P.PAY_POINT, P.PAY_SUMPOINT -->
+<!-- 			FROM TB_PAY P -->
+<!-- 			INNER JOIN TB_USER U ON P.USER_SEQ = U.USER_SEQ -->
+<!-- 			WHERE U.USER_SEQ = #{user_seq} -->
+<!-- 			ORDER BY P.PAY_SEQ DESC -->
+<!-- 	</select> -->
+	
+	
+	<!-- 유저개인의 결제내역조회 페이징을 위한 쿼리 -->
+	<select id="userCountPay" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+	    SELECT COUNT(*) 
+	    FROM TB_PAY
+	    WHERE USER_SEQ = #{user_seq}
+	</select>
+	
+	<!-- 유저 개인의 결제내역조회 페이징하기 위한 쿼리 -->
+	<select id="userPayPageList" parameterType="java.util.Map" resultType="java.util.Map">
+	    SELECT PAY_SEQ, PAY_IMD, USER_SEQ, PAY_PAYMENT, PAY_DATE, PAY_POINT, PAY_SUMPOINT
+	    FROM (
+	        SELECT P.PAY_SEQ, P.PAY_IMD, P.USER_SEQ, P.PAY_PAYMENT, P.PAY_DATE, P.PAY_POINT, P.PAY_SUMPOINT,
+	               ROW_NUMBER() OVER (ORDER BY P.PAY_DATE DESC) AS RN
+	        FROM TB_PAY P
+	        WHERE P.USER_SEQ = #{user_seq}
+	    ) TempTable
+	    WHERE RN BETWEEN #{first} AND #{last}
+	</select>
+</mapper>

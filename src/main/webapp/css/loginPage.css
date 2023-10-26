@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+body{
+	width: 1280px;
+	margin: 0 auto;
+}
+
+.mainTitle{
+	text-align: center;
+	font-size: 60px; 
+	color: white;
+    font-family: 'BMHANNAPro', fantasy;
+    margin-top: 100px;
+}
+
+a.a{
+   text-decoration: none;
+   color: #222831;
+}
+
+form {
+  text-align: center;
+}
+
+.form-control {
+  width: 50%;
+  margin: 0 auto;
+}
+
+/* 하단 버튼들 */
+div {
+  text-align: center;
+  margin-top: 10px; /* 선택적인 여백 추가 */
+}
+
+.textlink{
+	font-size: 12px;
+}
+
+/* 버튼 스타일 */
+button {
+  color: #393E46; 
+  background-color: #00FFF5;
+}
+
+.btn.btn-primary {
+  padding: 5px 100px; /* 위 아래 여백 10px, 좌우 여백 20px */
+}
+
+/* 링크 스타일 */
+a {
+  margin: 10px 0; /* 선택적인 여백 추가 */
+}

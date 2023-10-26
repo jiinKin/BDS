@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dowon.bds.model.mapper.FreeBoardCommentImpl">
+<!-- 답글작성 -->
+<insert id="CommentInsert" parameterType="FreeCommentDto">
+<selectKey keyProperty="comment_seq" resultType="java.lang.Integer" order="BEFORE">
+	SELECT SQ_FREE_COMMENT.NEXTVAL FROM DUAL
+</selectKey>	
+INSERT INTO BOOK.TB_FREE_COMMENT
+	(COMMENT_SEQ, FREE_BSEQ, USER_SEQ, COMMENT_CONTENT, COMMENT_REGDATE, COMMENT_DELFLAG)
+	VALUES(SQ_FREE_COMMENT.NEXTVAL, #{free_bseq}, #{user_seq}, #{comment_content}, SYSDATE, 'N')
+</insert>
+
+<!-- 답글조회 -->
+<select id="CommentAllList" resultType="FreeCommentDto">
+SELECT tfc.COMMENT_SEQ ,tu.USER_NAME ,tfc.COMMENT_CONTENT ,tfc.COMMENT_REGDATE  
+	FROM TB_FREE_COMMENT tfc 
+	JOIN TB_USER tu ON tfc.USER_SEQ = tu.USER_SEQ 
+	WHERE FREE_BSEQ = #{free_bseq} AND tfc.COMMENT_DELFLAG = 'N'
+	ORDER BY COMMENT_SEQ
+</select>
+
+<!-- 답글삭제 -->
+<update id="CommentDel" parameterType="java.util.Map">
+UPDATE TB_FREE_COMMENT SET COMMENT_DELFLAG ='Y'
+	WHERE COMMENT_DELFLAG ='N'
+	AND COMMENT_SEQ = #{comment_seq}
+</update>
+</mapper>

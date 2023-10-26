@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dowon.bds.model.mapper.NoticeBoardDaoImpl">
+
+<!-- 공지사항 페이징 -->
+<select id="noticeBoardCount" resultType="java.lang.Integer">
+SELECT COUNT(*) 
+	FROM TB_NOTICE_BOARD
+	WHERE NOTICE_DELFLAG = 'N'  
+</select>
+
+<select id="noticeBoardCountList" parameterType="java.util.Map" resultType="NoticeBoardDto">
+    SELECT NOTICE_BSEQ, USER_SEQ, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_REGDATE, NOTICE_DELFLAG,USER_NAME
+    FROM (
+        SELECT tnb.NOTICE_BSEQ, tnb.USER_SEQ, tnb.NOTICE_TITLE, tnb.NOTICE_CONTENT, 
+               tnb.NOTICE_REGDATE, tnb.NOTICE_DELFLAG,
+               tu.USER_NAME,
+               ROW_NUMBER() OVER (ORDER BY tnb.NOTICE_REGDATE DESC) AS RN
+        FROM TB_NOTICE_BOARD tnb
+        JOIN TB_USER tu ON tnb.USER_SEQ = tu.USER_SEQ
+        WHERE NOTICE_DELFLAG = 'N'
+    ) tt
+    WHERE RN BETWEEN #{first} AND #{last}
+</select>
+
+<!-- 공지사항 글 전체조회 -->
+<select id="noticeBoardList" resultType="NoticeBoardDto">
+SELECT tnb.NOTICE_BSEQ, tnb.USER_SEQ, tnb.NOTICE_TITLE, tnb.NOTICE_REGDATE, tu.USER_NAME
+    FROM TB_NOTICE_BOARD tnb
+    JOIN TB_USER tu ON tnb.USER_SEQ = tu.USER_SEQ
+    WHERE NOTICE_DELFLAG = 'N'
+    ORDER BY NOTICE_REGDATE DESC
+</select>
+
+
+<!-- 새글등록 -->
+<insert id="noticeBoardInsert" parameterType="NoticeBoardDto">
+INSERT INTO BOOK.TB_NOTICE_BOARD
+(NOTICE_BSEQ, USER_SEQ, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_REGDATE, NOTICE_DELFLAG)
+VALUES(SQ_NOTICE_BOARD.NEXTVAL,#{user_seq}, #{notice_title}, #{notice_content}, SYSDATE, 'N')
+</insert>
+
+<!-- 상세조회 -->
+<select id="noticeBoardDetail" resultType="NoticeBoardDto">
+SELECT tnb.NOTICE_BSEQ, tnb.NOTICE_TITLE, tnb.NOTICE_CONTENT, tnb.NOTICE_REGDATE, tu.USER_NAME
+	FROM TB_NOTICE_BOARD tnb
+	INNER JOIN TB_USER tu ON tnb.USER_SEQ = tu.USER_SEQ
+	WHERE tnb.NOTICE_BSEQ = #{notice_bseq}
+</select>
+
+<!-- 게시글삭제 -->
+<update id="noticeBoardDel" parameterType="java.util.Map">
+UPDATE TB_NOTICE_BOARD SET NOTICE_DELFLAG = 'Y'
+	WHERE NOTICE_DELFLAG ='N'
+	AND NOTICE_BSEQ = #{notice_bseq}
+</update>
+
+<!-- 게시글 수정 -->
+<update id="updateNoticeBoard" parameterType="java.util.Map">
+UPDATE TB_NOTICE_BOARD SET NOTICE_CONTENT = #{notice_content}, NOTICE_REGDATE = SYSDATE
+	WHERE NOTICE_BSEQ = #{notice_bseq}
+</update>
+
+<!-- 메인페이지 게시글 노출(8개) -->
+<select id="mainNoitceList" parameterType="java.util.Map" resultType="NoticeBoardDto">
+	SELECT NOTICE_BSEQ, USER_SEQ, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_REGDATE, NOTICE_DELFLAG
+	FROM (
+	    SELECT NOTICE_BSEQ, USER_SEQ, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_REGDATE, NOTICE_DELFLAG, ROWNUM AS RN
+	    FROM (
+	        SELECT NOTICE_BSEQ, USER_SEQ, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_REGDATE, NOTICE_DELFLAG
+	        FROM BOOK.TB_NOTICE_BOARD
+	        WHERE NOTICE_DELFLAG = 'N'
+	        ORDER BY NOTICE_BSEQ DESC
+	    )
+	)
+	WHERE RN &lt;= 8
+</select>
+
+
+</mapper>

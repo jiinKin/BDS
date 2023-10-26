@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+body {
+  width:1280px;
+  background-color: white;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+   font-size: 15px;
+   color: #222831
+
+}
+h1 {
+      font-family: 'BMHANNAPro', fantasy;
+/*       padding-bottom: 10px;	 */
+      padding-top: 20px;
+/*       margin-top: 80px; */
+      	
+}
+
+input {
+	float: right; 
+	background-color: #00fff5; 
+	color: #222831;
+}
+
+.input_select_wrap2 {
+	 padding-bottom: 40px;	
+	 padding-top: 40px;	
+}
+
+.faq-title{
+	cursor: pointer; 
+	color: #222831;
+	font-style: italic;
+	font-weight: bold;
+	
+}
+
+.faq-content {
+	display: none;
+	font-size: 13px;
+	color: #393E46;
+	 padding-bottom: 100px;	
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+     padding-bottom: 40px;	
+	 padding-top: 40px;	
+    
+}
+.form-control{
+	width: 400px;
+}
+
+option{
+	color:  #222831;
+}

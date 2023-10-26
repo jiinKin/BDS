@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+/* adminPage.css */
+#bookList {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#bookList th, #bookList td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#bookList th {
+    background-color: #f2f2f2;
+}
+
+#bookList img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+h1{
+	font-family: 'BMHANNAPro';
+}

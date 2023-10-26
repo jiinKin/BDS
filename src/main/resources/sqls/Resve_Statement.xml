@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dowon.bds.model.mapper.ResveDaoImpl">
+
+
+<!-- 예약내역조회 -->
+<select id="selectStep" parameterType="java.lang.Integer" resultType="java.util.Map">
+SELECT
+    U.USER_NAME AS user_name,
+    B.BOOK_SEQ AS book_seq,
+    B.BOOK_TITLE AS book_title,
+    R.RESVE_SEQ,
+    R.RESVE_STATUS,
+    (SELECT COUNT(DISTINCT RESVE_STEP) FROM BOOK.TB_RESVE WHERE BOOK_SEQ = B.BOOK_SEQ AND RESVE_STEP IS NOT NULL AND RESVE_STEP <![CDATA[<=]]> R.RESVE_STEP) AS RESVE_STEP
+FROM BOOK.TB_RESVE R
+INNER JOIN BOOK.TB_USER U ON R.USER_SEQ = U.USER_SEQ
+INNER JOIN BOOK.TB_BOOK B ON R.BOOK_SEQ = B.BOOK_SEQ
+WHERE U.USER_SEQ = #{user_seq}
+ORDER BY RESVE_SEQ DESC
+</select>
+
+
+
+<!-- 페이징처리를 위한 쿼리 -->
+<select id="userCountResve" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT COUNT(*) 
+    FROM TB_RESVE 
+    WHERE USER_SEQ = #{user_seq}
+</select>
+
+<select id="userResvePageList" parameterType="java.util.Map" resultType="java.util.Map">
+SELECT RESVE_SEQ, user_name, book_title,book_seq, RESVE_STATUS, RESVE_STEP
+FROM (
+    SELECT
+        user_name,
+        book_seq,
+        book_title,
+        RESVE_SEQ,
+        RESVE_STATUS,
+        RESVE_STEP,
+        ROWNUM AS RN
+    FROM (
+        SELECT
+            U.USER_NAME AS user_name,
+            B.BOOK_SEQ AS book_seq,
+            B.BOOK_TITLE AS book_title,
+            R.RESVE_SEQ,
+            R.RESVE_STATUS,
+            (
+                SELECT COUNT(DISTINCT RESVE_STEP)
+                FROM BOOK.TB_RESVE R2
+                WHERE R2.BOOK_SEQ = B.BOOK_SEQ
+                AND R2.RESVE_STEP IS NOT NULL
+                AND R2.RESVE_STEP <![CDATA[<=]]> R.RESVE_STEP
+            ) AS RESVE_STEP
+        FROM BOOK.TB_RESVE R
+        INNER JOIN BOOK.TB_USER U ON R.USER_SEQ = U.USER_SEQ
+        INNER JOIN BOOK.TB_BOOK B ON R.BOOK_SEQ = B.BOOK_SEQ
+        WHERE U.USER_SEQ = #{user_seq}
+        ORDER BY R.RESVE_SEQ DESC
+    )
+)
+WHERE RN BETWEEN #{first} AND #{last}
+</select>
+
+<!-- 특정 회원의 예약중or대출대기 여부 판단 -->
+<select id="userResveStatus" parameterType="java.lang.Integer" resultType="Map">
+SELECT U.USER_SEQ AS USER_SEQ, U.USER_NAME AS USER_NAME, B.BOOK_SEQ AS BOOK_SEQ, B.BOOK_TITLE AS BOOK_TITLE, R.RESVE_STEP , R.RESVE_STATUS 
+FROM BOOK.TB_RESVE R
+INNER JOIN BOOK.TB_USER U ON R.USER_SEQ = U.USER_SEQ
+INNER JOIN BOOK.TB_BOOK B ON R.BOOK_SEQ = B.BOOK_SEQ
+WHERE U.USER_SEQ = #{user_seq} AND (R.RESVE_STATUS = 'Y' OR R.RESVE_STATUS = 'R')
+</select>
+
+<!-- 예약 인서트 -->
+<insert id="resveBook" parameterType="map">
+INSERT INTO TB_RESVE
+(RESVE_SEQ, USER_SEQ, BOOK_SEQ, RESVE_STEP, RESVE_STATUS)
+SELECT
+    SQ_RESVE.NEXTVAL,
+    U.USER_SEQ,
+    B.BOOK_SEQ,
+    COALESCE((SELECT MAX(R2.RESVE_STEP) + 1
+              FROM TB_RESVE R2
+              WHERE R2.BOOK_SEQ = B.BOOK_SEQ AND R2.RESVE_STATUS = 'Y'
+             ), 1), 
+    'Y'
+FROM
+    TB_USER U
+CROSS JOIN
+    TB_BOOK B
+WHERE
+    U.USER_SEQ = #{user_seq}
+    AND B.BOOK_SEQ = #{book_seq}
+</insert>
+
+
+<!-- 예약취소하기 -->
+<update id="resveCancle" parameterType="map">
+UPDATE TB_RESVE
+SET RESVE_STATUS = 'N', RESVE_STEP = NULL
+WHERE BOOK_SEQ = #{book_seq} AND RESVE_STATUS = 'Y' AND USER_SEQ = #{user_seq}
+</update>
+
+<!-- <update id="resveCancle" parameterType="map"> -->
+<!-- UPDATE TB_RESVE -->
+<!-- SET RESVE_STATUS = 'N', RESVE_STEP = NULL -->
+<!-- WHERE BOOK_SEQ = #{book_seq} AND (RESVE_STATUS = 'Y' OR RESVE_STATUS = 'R') AND USER_SEQ = #{user_seq} -->
+<!-- </update> -->
+
+<!-- 대출+예약중인 도서 반납완료시, 예약순번 가장 빠른회원 대출대기 상태로 업데이트 -->
+<update id="rentStandby" parameterType="java.lang.Integer">
+UPDATE BOOK.TB_RESVE
+SET RESVE_STATUS = 'R',
+    RESVE_STEP = CASE
+        WHEN RESVE_STEP = (SELECT MIN(RESVE_STEP) FROM BOOK.TB_RESVE WHERE BOOK_SEQ = #{book_seq} AND RESVE_STATUS = 'Y') THEN NULL
+        ELSE RESVE_STEP
+    END
+WHERE BOOK_SEQ = #{book_seq} AND RESVE_STEP = (SELECT MIN(RESVE_STEP) FROM BOOK.TB_RESVE WHERE BOOK_SEQ = #{book_seq} AND RESVE_STATUS = 'Y') AND RESVE_STATUS = 'Y'
+</update>
+
+<!-- 대출대기인 회원이 대출신청 완료됐을때 (예약테이블 S) -->
+<update id="resveAsRent" parameterType="java.lang.Integer">
+UPDATE TB_RESVE
+    SET RESVE_STATUS = 'S'
+    WHERE BOOK_SEQ = #{book_seq}
+      AND RESVE_STATUS = 'R'
+</update>
+
+
+</mapper>

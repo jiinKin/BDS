@@ -1,0 +1,167 @@
+/* 레이아웃 틀 */
+body {
+    width: 1280px;
+    margin: 0 auto;
+}
+
+a.a {
+    text-decoration: none;
+    color: #222831;
+}
+
+.mainTitle {
+    text-align: center;
+    font-size: 60px;
+    color: white;
+    font-family: 'BMHANNAPro', fantasy;
+}
+
+#wrapper {
+    position: relative;
+    height: 100%;
+}
+
+#content {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: 460px;
+}
+
+h2{
+	width:220px;
+	font-family: 'BMHANNAPro', fantasy;
+    font-size: 20px;
+    font-weight: 700;
+    display: inline-block;
+    text-align: center;
+}
+
+/* 입력폼 */
+h3 {
+    margin: 19px 0 8px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.box {
+    display: block;
+    width: 100%;
+    height: 51px;
+    border: solid 1px #dadada;
+    padding: 10px 14px 10px 14px;
+    box-sizing: border-box;
+    background: #fff;
+    position: relative;
+}
+
+.int {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 29px;
+    border: none;
+    background: #fff;
+    font-size: 15px;
+}
+
+.box.int_id {
+    width: calc(100% - 150px);
+    float: left;
+    margin-right: 10px;
+    position: relative;
+}
+
+.box.int_id input {
+    width: 100%;
+}
+
+input {
+    font-family: Dotum,'돋움',Helvetica,sans-serif;
+}
+
+/* 버튼 */
+.btn_area {
+    margin: 30px 0 91px;
+}
+
+.joinButton{
+    width: 225px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 0 auto;
+    cursor: pointer;
+    border-radius: 3px;
+    height: 50px;
+}
+
+.cancleButton{
+    width: 225px;
+    background-color: silver;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 0 auto;
+    cursor: pointer;
+    border-radius: 3px;
+    height: 50px;
+}
+
+.checkPhoneButton{
+    width: 460px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 0 auto;
+    cursor: pointer;
+    border-radius: 3px;
+    height: 50px;
+    margin-top: 5px;
+}
+
+.checkButton {
+    width: 138px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+    height: 50px;
+}
+
+.searchButton {
+    background: white;
+    border: none;
+    border-bottom: 1px solid gray;
+    cursor: pointer;
+    color: gray;
+    text-decoration: none;
+    margin: 0 auto;
+    width: 227px;
+    height: 40px;
+}
+
+.searchButton:active,
+.searchButton:hover {
+	border-bottom: 5px solid purple;
+}

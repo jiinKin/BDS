@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+
+/* 도현체 */
+@font-face {
+   font-family: 'BMDOHYEON';
+   src:
+      url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff')
+      format('woff');
+   font-weight: normal;
+   font-style: normal;
+}
+
+/* 한나프로 */
+@font-face {
+   font-family: 'BMHANNAPro';
+   src:
+      url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.0/BMHANNAPro.woff')
+      format('woff');
+   font-weight: normal;
+   font-style: normal;
+}
+
+/* 한나에어 */
+@font-face {
+   font-family: 'BMHANNAAir';
+   src:
+      url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/BMHANNAAir.woff')
+      format('woff');
+   font-weight: normal;
+   font-style: normal;
+}
+
+/* 한나 */
+.hanna * {
+   font-family: 'Hanna', fantasy;
+}
+
+/* 주아 */
+@font-face {
+    font-family: 'BMJUA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

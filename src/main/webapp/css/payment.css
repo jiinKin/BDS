@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+		 body {
+		 overflow: hidden;
+		 width:1280px;
+		 margin: 0 auto;
+ 		 font-family: 'BMHANNAPro', fantasy;
+		 background-color: #2ac1bc;
+		 box-sizing: border-box;
+		 font-size: 15px;
+   		 color: #222831;
+   		 background-image: url("../img/star.png"); 
+   		 background-repeat: no-repeat; 
+   		 background-size: 25%; 
+   		 background-position: bottom;
+		            }
+		            
+		.button {
+		  background-color: white;
+		  border: solid 2px;
+		  color: #2ac1bc;
+		  padding: 15px 32px;
+ 		  font-family: 'BMHANNAPro', fantasy;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 20px;
+		  margin: 4px 2px;
+		  cursor: pointer;
+		  border-radius: 12px;
+		  font-style: #000;
+		  
+		}
+		
+		button.button2 {
+		  background-color: #808080;
+		  border: solid 2px;
+		  color: #2ac1bc;
+		  padding: 15px 32px;
+		  font-family: 'BMHANNAPro', fantasy;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 20px;
+		  margin: 4px 2px;
+		  cursor: pointer;
+		  border-radius: 12px;
+		  font-style: #000;
+		  
+		}
+		
+		.button:hover {
+		      background-color:#B2DFDB;
+		      transition: 0.2s;
+		  }
+
+	   .container {
+		height: 70vh;
+		}
+		.pay{
+		  padding-top: 200px;
+		  padding-bottom: 50px;
+		}

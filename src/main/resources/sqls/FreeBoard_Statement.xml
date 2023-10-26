@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dowon.bds.model.mapper.IFreeBoardDaoImpl">
+<!-- 전체조회 -->
+<select id="freeBoardList" resultType="FreeBoardDto">
+SELECT tfb.FREE_BSEQ, tfb.USER_SEQ, tfb.FREE_TITLE, tfb.FREE_REGDATE, tu.USER_NAME
+    FROM TB_FREE_BOARD tfb
+    JOIN TB_USER tu ON tfb.USER_SEQ = tu.USER_SEQ
+    WHERE FREE_DELFLAG = 'N'
+    ORDER BY FREE_REGDATE DESC
+</select>
+
+<!-- 자유게시판 페이징 -->
+<select id="FreeBoardCount" resultType="java.lang.Integer">
+SELECT COUNT(*) 
+	FROM TB_FREE_BOARD
+	WHERE FREE_DELFLAG = 'N'  
+</select>
+
+<select id="FreeBoardCountList" parameterType="java.util.Map" resultType="FreeBoardDto">
+SELECT FREE_BSEQ, USER_SEQ, FREE_TITLE, FREE_REGDATE, USER_NAME
+   FROM (SELECT tfb.FREE_BSEQ, tfb.USER_SEQ, tfb.FREE_TITLE, 
+            tfb.FREE_REGDATE, tu.USER_NAME,
+         ROW_NUMBER() OVER (ORDER BY tfb.FREE_REGDATE DESC) AS RN
+      FROM TB_FREE_BOARD tfb
+      JOIN TB_USER tu ON tfb.USER_SEQ = tu.USER_SEQ
+       WHERE FREE_DELFLAG = 'N'
+   )tt
+WHERE RN BETWEEN #{first} AND #{last}
+</select>    
+<!-- 새글등록 -->
+<insert id="freeBoardInsert" parameterType="FreeBoardDto">
+<selectKey keyProperty="free_bseq" resultType="java.lang.Integer" order="BEFORE">
+	SELECT SQ_FREE_BOARD.NEXTVAL FROM DUAL
+</selectKey>	
+INSERT INTO BOOK.TB_FREE_BOARD
+(FREE_BSEQ, USER_SEQ, FREE_TITLE, FREE_CONTENT, FREE_REGDATE, FREE_DELFLAG)
+VALUES(SQ_FREE_BOARD.NEXTVAL,#{user_seq}, #{free_title}, #{free_content}, SYSDATE, 'N')
+</insert>
+
+<!-- 상세조회 -->
+<select id="freeBoardDetail" resultType="FreeBoardDto">
+SELECT tfb.FREE_BSEQ, tfb.FREE_TITLE, tfb.FREE_CONTENT, tfb.FREE_REGDATE, tu.USER_NAME
+	FROM TB_FREE_BOARD tfb
+	INNER JOIN TB_USER tu ON tfb.USER_SEQ = tu.USER_SEQ
+	WHERE tfb.FREE_BSEQ = #{free_bseq}
+</select>
+
+<!-- 게시글삭제 -->
+<update id="freeBoardDel" parameterType="java.util.Map">
+UPDATE TB_FREE_BOARD SET FREE_DELFLAG = 'Y'
+	WHERE FREE_DELFLAG ='N'
+	AND FREE_BSEQ = #{free_bseq}
+</update>
+
+<!-- 게시글 수정 -->
+<update id="updateBoard" parameterType="java.util.Map">
+UPDATE TB_FREE_BOARD SET FREE_CONTENT = #{free_content}, FREE_REGDATE = SYSDATE
+	WHERE FREE_BSEQ = #{free_bseq}
+</update>
+
+</mapper>

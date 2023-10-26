@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+body{
+	width: 1280px;
+	margin:0 auto;
+}
+
+a.a{
+	text-decoration: none;
+	color: #222831;
+}
+
+.mainTitle{
+	text-align: center; 
+	font-size: 60px; 
+	color: black;
+  font-family: 'BMHANNAPro', fantasy;
+
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+.flex-container > div {
+  width: 400px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+  text-align: right;
+}
+
+li,.btn{
+	font-family: 'BMHANNAAir', fantasy;
+   font-size: 20px;
+}
+
+span{
+	font-size: 18px;
+}
+
+.inline-elements {
+    display: inline-block;
+}
+
+
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+/*     background-color: #2ac1bc; */
+}
+
+
+
+.submenu {
+  display: none;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.menu-item {
+  position: relative;
+}
+
+.menu-item:hover .submenu {
+  display: block;
+}
+
+.submenu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.submenu li {
+  margin-bottom: 8px;
+}
+
+.submenu a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.submenu a:hover {
+  color: #e44d26;
+}
+
+h1,h2{
+      font-family: 'BMHANNAPro', fantasy;
+}
